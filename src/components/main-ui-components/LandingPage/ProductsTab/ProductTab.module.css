@@ -1,0 +1,41 @@
+/* ProductTab.module.css */
+
+.kickerFont {
+  font-family:
+    "Plus Jakarta Sans",
+    "Poppins",
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  font-weight: 600;
+}
+
+.subFont {
+  font-family:
+    "Plus Jakarta Sans",
+    "Poppins",
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  font-weight: 800;
+}
+
+.headingFont {
+  font-family:
+    "Plus Jakarta Sans",
+    "Poppins",
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+}
