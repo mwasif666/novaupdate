@@ -8,12 +8,18 @@
   :root {
     --background: #ffffff;
     --foreground: #171717;
+    --theme: #27648a;
+    --bg1: #07101f;
+    --bg2: #0a1630;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
       --background: #ffffff;
       --foreground: #111827;
+      --theme: #27648a;
+      --bg1: #07101f;
+      --bg2: #0a1630;
     }
   }
 
