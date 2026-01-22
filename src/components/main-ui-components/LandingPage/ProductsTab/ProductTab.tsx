@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import styles from "./ProductTab.module.css";
 
 export default function ProductTab() {
@@ -35,14 +35,13 @@ export default function ProductTab() {
   useEffect(() => {
     const handleScroll = () => {
       sectionRefs.current.forEach((section, index) => {
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          if (
-            rect.top <= window.innerHeight / 2 &&
-            rect.bottom >= window.innerHeight / 2
-          ) {
-            setCurrentTab(tabsName[index]);
-          }
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        if (
+          rect.top <= window.innerHeight / 2 &&
+          rect.bottom >= window.innerHeight / 2
+        ) {
+          setCurrentTab(tabsName[index]);
         }
       });
     };
@@ -128,39 +127,19 @@ export default function ProductTab() {
   };
 
   return (
-    <section
-      className="relative"
-      id="servicesTab"
-      style={{
-        margin: "0px 80px",
-      }}
-    >
-      <div className="relative">
+    <section className={styles.section} id="servicesTab">
+      <div className={styles.inner}>
         {/* Top Heading Block */}
-        <div className="mt-20 mb-16 px-4">
-          <div className="flex justify-center">
-            <div
-              className="
-                inline-flex items-center justify-center gap-4
-                px-8 py-3 rounded-full
-                border border-slate-200/80 bg-white/70 backdrop-blur
-                shadow-sm
-                dark:bg-slate-900/40 dark:border-slate-700/70
-              "
-            >
-              <span className="h-px w-10 bg-slate-200 dark:bg-slate-700" />
-              <span
-                className={`text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-slate-300 ${styles.kickerFont}`}
-              >
-                {sectionKicker}
-              </span>
-              <span className="h-px w-10 bg-slate-200 dark:bg-slate-700" />
-            </div>
+        <div className={styles.topHead}>
+          <div className={styles.kickerWrap}>
+            <span className={styles.kickerLine} />
+            <span className={`${styles.kickerText} ${styles.kickerFont}`}>
+              {sectionKicker}
+            </span>
+            <span className={styles.kickerLine} />
           </div>
 
-          <h2
-            className={`mt-6 text-center font-extrabold text-4xl sm:text-5xl lg:text-6xl text-slate-950 dark:text-white ${styles.headingFont}`}
-          >
+          <h2 className={`${styles.sectionTitle} ${styles.headingFont}`}>
             {sectionTitle}
           </h2>
         </div>
@@ -176,43 +155,33 @@ export default function ProductTab() {
               ref={(el) => {
                 sectionRefs.current[index] = el;
               }}
-              className="my-20 md:my-20 lg:my-25 grid grid-cols-1 md:grid-cols-2 gap-10 items-center px-4 sm:px-1 lg:px-10"
+              className={styles.row}
             >
               {/* Content Block */}
               <div
-                className={`space-y-5 ${
-                  isEven ? "md:order-1" : "md:order-2"
-                } order-1`}
+                className={`${styles.content} ${isEven ? styles.orderA : styles.orderB}`}
               >
-                {/* Screenshot-like sub heading (dot + uppercase tracking) */}
-                <div className="flex items-center gap-3">
-                  <span className="w-5 h-5 rounded-full bg-[#296a92]/20 flex items-center justify-center">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#296a92]" />
+                <div className={styles.subRow}>
+                  <span className={styles.dotOuter}>
+                    <span className={styles.dotInner} />
                   </span>
 
-                  <h3
-                    className={`uppercase font-extrabold tracking-[0.22em] text-[13px] sm:text-[15px] text-[#296a92] ${styles.subFont}`}
-                  >
+                  <h3 className={`${styles.subTitle} ${styles.subFont}`}>
                     {sub}
                   </h3>
                 </div>
 
-                {/* Big bold heading */}
-                <h1
-                  className={`font-black tracking-[-0.03em] leading-[0.95] text-slate-950 dark:text-white text-[42px] sm:text-[56px] md:text-[72px] max-w-[720px] ${styles.headingFont}`}
-                >
+                <h1 className={`${styles.bigHeading} ${styles.headingFont}`}>
                   {heading}
                 </h1>
 
-                <p className="text-sm sm:text-base md:text-lg max-w-md text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {paragraph}
-                </p>
+                <p className={styles.paragraph}>{paragraph}</p>
 
                 <Link href={href}>
                   <Button
                     showArrow
                     variant="secondary"
-                    className="mt-2 px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base"
+                    className={styles.btnFix}
                   >
                     Explore now
                   </Button>
@@ -221,16 +190,16 @@ export default function ProductTab() {
 
               {/* Image Block */}
               <div
-                className={`flex justify-center ${
-                  isEven ? "md:order-2" : "md:order-1"
-                } order-2`}
+                className={`${styles.imageCol} ${isEven ? styles.orderB : styles.orderA}`}
               >
-                <div className="w-[350px] h-[300px] sm:w-[350px] sm:h-[300px] lg:w-[520px] lg:h-[360px] relative overflow-hidden rounded-2xl shadow-2xl bg-gray-50 dark:bg-gray-800 border border-black/5 dark:border-white/10">
+                <div className={styles.imageCard}>
                   <Image
                     src={imageSrc}
                     alt={heading}
                     fill
-                    className="object-cover hover:brightness-110 transition-all duration-300"
+                    className={styles.image}
+                    sizes="(max-width: 768px) 100vw, 520px"
+                    priority={index === 0}
                   />
                 </div>
               </div>
@@ -239,44 +208,31 @@ export default function ProductTab() {
         })}
 
         {/* Sticky Bottom Tab Bar */}
-        <div className="sticky bottom-0 bg-white/90 backdrop-blur-md shadow-md rounded-md border-t border-gray-200 dark:bg-slate-950/75 dark:border-slate-800">
-          <ul
-            className="
-              flex flex-wrap justify-center md:justify-around gap-2 sm:gap-3 px-2 py-2
-              max-h-[100px] overflow-y-auto sm:overflow-visible
-            "
-          >
+        <div className={styles.stickyBar}>
+          <div className={styles.tabsScroller}>
             {tabsName.map((tab, index) => {
               const isActive = currentTab === tab;
 
               return (
-                <li key={tab} className="flex">
-                  <button
-                    ref={(el) => {
-                      tabRefs.current[index] = el;
-                    }}
-                    onClick={() => {
-                      setCurrentTab(tab);
-                      sectionRefs.current[index]?.scrollIntoView({
-                        behavior: "smooth",
-                      });
-                    }}
-                    className={`px-3 sm:px-5 py-2
-                      text-xs sm:text-base font-medium
-                      rounded-sm transition-all duration-300
-                      truncate sm:whitespace-normal sm:truncate-none
-                      ${
-                        isActive
-                          ? "bg-[#296a92] cursor-pointer text-white shadow-md"
-                          : "bg-gray-100 cursor-pointer text-gray-700 hover:bg-gray-200 hover:text-black dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-                      }`}
-                  >
-                    {tab}
-                  </button>
-                </li>
+                <button
+                  key={tab}
+                  ref={(el) => {
+                    tabRefs.current[index] = el;
+                  }}
+                  onClick={() => {
+                    setCurrentTab(tab);
+                    sectionRefs.current[index]?.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                  }}
+                  className={`${styles.tabBtn} ${isActive ? styles.tabActive : styles.tabIdle}`}
+                  type="button"
+                >
+                  {tab}
+                </button>
               );
             })}
-          </ul>
+          </div>
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ import HeroCoinTransactions from "@/components/main-ui-components/services/coin-
 
 const CoinTransactionService = () => {
   return (
-    <section className="bg-[#f1f6fb] text-gray-900">
+    <section className=" text-gray-900">
       {/* 🟣 HERO SECTION */}
       <HeroCoinTransactions />
       {/* 🟣 HOW IT WORKS */}

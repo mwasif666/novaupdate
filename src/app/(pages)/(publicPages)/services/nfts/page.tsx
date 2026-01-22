@@ -9,7 +9,7 @@ import RevenueSection from "@/components/main-ui-components/services/nfts/Revenu
 
 export default function NFTServicePage() {
   return (
-    <div className="bg-[#f1f6fb] text-gray-900 overflow-hidden">
+    <div className=" text-gray-900 overflow-hidden">
       {/* HERO SECTION */}
       <section className="relative py-24 text-center px-6 max-w-6xl mx-auto">
         {/* Background Glow */}

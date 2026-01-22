@@ -89,7 +89,7 @@ export default function DevSection({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true }}
-      className="mt-10 sm:mt-16 md:mt-20 bg-[#0a1630] text-white py-10 sm:py-10 md:py-10 px-4 sm:px-6 md:px-12 rounded-md"
+      className="mt-10 sm:mt-16 md:mt-20 bg-[#0a1630] text-white py-10 sm:py-10 md:py-10 px-4 sm:px-6 md:px-12"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Left side */}

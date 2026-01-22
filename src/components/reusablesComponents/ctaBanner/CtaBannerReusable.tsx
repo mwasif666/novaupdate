@@ -18,7 +18,7 @@ const CtaBannerUtil: React.FC<CtaBannerProps> = ({ heading, button }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true }}
-      className="relative mt-4 md:mt-10 overflow-hidden rounded-2xl py-10 sm:py-14 md:py-20 px-4 sm:px-6 md:px-10"
+      className="CTA-services relative mt-4 md:mt-10 overflow-hidden rounded-2xl py-10 sm:py-14 md:py-20 px-4 sm:px-6 md:px-10"
       style={{
         backgroundImage: `
           radial-gradient(1200px 700px at 22% 18%, rgba(41, 106, 146, 0.35), transparent 58%),

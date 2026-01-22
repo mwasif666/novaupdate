@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Search, PlayCircle, BookOpen, Tag, X } from "lucide-react";
 import Image from "next/image";
@@ -71,8 +71,8 @@ const videos = [
     id: 1,
     title: "Introduction to Web3",
     category: "Blockchain Basics",
-    thumbnail: "/academy/web3.webp", // store a JPG in /public/videos
-    src: "/academy/web3.mp4", // store an MP4 in /public/videos
+    thumbnail: "/academy/web3.webp",
+    src: "/academy/web3.mp4",
   },
   {
     id: 2,
@@ -94,103 +94,113 @@ export default function NovaAcademyPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const filteredBlogs = blogs.filter(
-    (b) =>
-      (selectedCategory === "All" || b.category === selectedCategory) &&
-      b.title.toLowerCase().includes(search.toLowerCase()),
-  );
 
-  // const filteredVideos = videos.filter(
-  //   (v) =>
-  //     (selectedCategory === "All" || v.category === selectedCategory) &&
-  //     v.title.toLowerCase().includes(search.toLowerCase())
-  // );
+  const filteredBlogs = useMemo(() => {
+    const q = search.toLowerCase().trim();
+    return blogs.filter(
+      (b) =>
+        (selectedCategory === "All" || b.category === selectedCategory) &&
+        b.title.toLowerCase().includes(q),
+    );
+  }, [selectedCategory, search]);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      {/* Background SVG pattern */}
-      <svg
-        className="absolute top-0 left-0 w-full opacity-10 pointer-events-none"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 320"
-      >
-        <path
-          fill="url(#grad)"
-          fillOpacity="1"
-          d="M0,192L80,208C160,224,320,256,480,266.7C640,277,800,267,960,250.7C1120,235,1280,213,1360,202.7L1440,192L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
-        ></path>
-        <defs>
-          <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stopColor="#1e597c" />
-            <stop offset="100%" stopColor="#00b4ff" />
-          </linearGradient>
-        </defs>
-      </svg>
+    <div className="min-h-screen bg-white text-gray-900 relative overflow-hidden">
+      {/* soft theme glow on white */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(41,106,146,0.18),transparent_60%)]" />
+      <div className="pointer-events-none absolute top-20 right-[-200px] h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(41,106,146,0.14),transparent_60%)]" />
+
       {/* Hero Section */}
-      <section className="text-center py-20 px-4 relative overflow-hidden">
+      <section className="text-center py-20 px-4 relative">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative z-10"
         >
-          <h1 className="text-5xl md:text-6xl font-extrabold primary-color ">
+          <div className="flex justify-center">
+            <div className="inline-flex items-center gap-3 rounded-full border border-[#296a92]/15 bg-[#296a92]/5 px-6 py-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#296a92]" />
+              <span className="text-[12px] font-semibold uppercase tracking-[0.28em] text-[#296a92]">
+                Learn & Level Up
+              </span>
+            </div>
+          </div>
+
+          <h1 className="mt-6 text-5xl md:text-6xl font-extrabold text-gray-900">
             Nova Academy
+            <span className="text-[#296a92]">.</span>
           </h1>
+
           <p className="text-lg md:text-xl mt-6 max-w-2xl mx-auto text-gray-600">
             Learn Blockchain, Web3, NFTs, and DeFi — all in one place. Knowledge
             powered by Nova.
           </p>
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-radial from-[#1e597c10] via-transparent to-transparent"></div>
       </section>
 
       {/* Search + Filter */}
-      <div className="max-w-6xl mx-auto px-4 mt-4 flex flex-col  items-center justify-between gap-4">
+      <div className="max-w-6xl mx-auto px-4 mt-2 flex flex-col items-center justify-between gap-4 relative z-10">
+        {/* Search */}
         <div className="relative w-full md:w-1/2">
           <Search className="absolute left-3 top-3 text-gray-400" size={18} />
           <input
             type="text"
             placeholder="Search blogs or videos..."
-            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#1e597c] shadow-sm transition-all"
+            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white
+              border border-gray-200 text-gray-800 placeholder-gray-400
+              focus:outline-none focus:border-[#296a92]
+              shadow-[0_10px_30px_rgba(17,24,39,0.06)]
+              transition-all"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
+        {/* Categories */}
         <div className="flex flex-wrap justify-center gap-2">
-          {categories.map((cat) => (
-            <Button
-              key={cat}
-              variant={selectedCategory === cat ? "default" : "outline"}
-              className={`rounded-full px-5 py-2 transition-all duration-300 ${
-                selectedCategory === cat
-                  ? "bg-gradient-to-r from-[#1e597c] to-[#b366ff] text-white shadow-md"
-                  : "bg-transparent border border-gray-300 text-gray-700 hover:border-[#1e597c]"
-              }`}
-              onClick={() => setSelectedCategory(cat)}
-            >
-              <Tag size={14} className="mr-1" /> {cat}
-            </Button>
-          ))}
+          {categories.map((cat) => {
+            const active = selectedCategory === cat;
+            return (
+              <Button
+                key={cat}
+                variant="outline"
+                className={`rounded-full px-5 py-2 transition-all duration-300 border
+                  ${
+                    active
+                      ? "bg-[#296a92] text-white border-[#296a92]  hover:bg-[#296a92]"
+                      : "bg-white border-gray-200 text-gray-700 hover:border-[#296a92]/40 hover:text-[#296a92]"
+                  }`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                <Tag size={14} className="mr-1" /> {cat}
+              </Button>
+            );
+          })}
         </div>
       </div>
 
       {/* Blogs Section */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
+      <section className="max-w-6xl mx-auto px-4 py-16 relative z-10">
         <div className="flex items-center gap-3 mb-8">
-          <BookOpen className="text-[#1e597c]" size={28} />
-          <h2 className="text-3xl font-semibold">Latest Blogs</h2>
+          <BookOpen className="text-[#296a92]" size={28} />
+          <h2 className="text-3xl font-semibold text-gray-900">Latest Blogs</h2>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {filteredBlogs.map((blog, index) => (
             <motion.div
               key={blog.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.01 }}
-              className="rounded-2xl overflow-hidden bg-white border border-gray-200 hover:shadow-xl hover:border-[#1e597c60] transition-all duration-300"
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              whileHover={{ y: -2 }}
+              className="rounded-2xl overflow-hidden bg-white
+                border border-gray-200
+                shadow-[0_16px_40px_rgba(17,24,39,0.08)]
+                hover:shadow-[0_22px_60px_rgba(41,106,146,0.16)]
+                hover:border-[#296a92]/35
+                transition-all duration-300"
             >
               <Image
                 src={blog.image}
@@ -199,19 +209,23 @@ export default function NovaAcademyPage() {
                 height={250}
                 className="w-full h-52 object-cover"
               />
+
               <div className="p-5">
-                <p className="text-sm text-[#1e597c] font-semibold uppercase tracking-wide">
+                <p className="text-sm text-[#296a92] font-semibold uppercase tracking-wide">
                   {blog.category}
                 </p>
-                <h3 className="text-xl font-bold mt-2">{blog.title}</h3>
+                <h3 className="text-xl font-bold mt-2 text-gray-900">
+                  {blog.title}
+                </h3>
                 <p className="text-gray-600 mt-2 text-sm leading-relaxed line-clamp-3">
                   {blog.excerpt}
                 </p>
+
                 <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
                   <span>{blog.date}</span>
                   <Link
                     href={`/nova-academy/${blog.id}`}
-                    className="text-[#1e597c] hover:text-[#b366ff] font-medium transition-colors"
+                    className="text-[#296a92] hover:text-[#1e597c] font-semibold transition-colors"
                   >
                     Read More →
                   </Link>
@@ -223,25 +237,29 @@ export default function NovaAcademyPage() {
       </section>
 
       {/* Videos Section */}
-      <section className="max-w-6xl mx-auto px-4 pb-24">
-        {/* Section Header */}
+      <section className="max-w-6xl mx-auto px-4 pb-24 relative z-10">
         <div className="flex items-center gap-3 mb-8">
-          <PlayCircle className="text-[#1e597c]" size={28} />
+          <PlayCircle className="text-[#296a92]" size={28} />
           <h2 className="text-3xl font-semibold text-gray-900">
             Educational Videos
           </h2>
         </div>
 
-        {/* Video Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {videos.map((video, index) => (
             <motion.div
               key={video.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.01 }}
-              className="rounded-2xl overflow-hidden bg-white border border-gray-200 hover:shadow-xl hover:border-[#1e597c60] transition-all cursor-pointer"
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              whileHover={{ y: -2 }}
+              className="rounded-2xl overflow-hidden bg-white cursor-pointer
+                border border-gray-200
+                shadow-[0_16px_40px_rgba(17,24,39,0.08)]
+                hover:shadow-[0_22px_60px_rgba(41,106,146,0.16)]
+                hover:border-[#296a92]/35
+                transition-all"
               onClick={() => setSelectedVideo(video.src)}
             >
               <div className="relative">
@@ -253,11 +271,12 @@ export default function NovaAcademyPage() {
                   className="w-full h-52 object-cover"
                 />
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <PlayCircle size={48} className="text-white" />
+                  <PlayCircle size={52} className="text-white" />
                 </div>
               </div>
+
               <div className="p-5">
-                <p className="text-sm text-[#1e597c] font-semibold uppercase tracking-wide">
+                <p className="text-sm text-[#296a92] font-semibold uppercase tracking-wide">
                   {video.category}
                 </p>
                 <h3 className="text-xl font-bold mt-2 text-gray-900">
@@ -271,16 +290,16 @@ export default function NovaAcademyPage() {
         {/* Video Modal */}
         {selectedVideo && (
           <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-            <div className="relative w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl bg-white">
               <video
                 src={selectedVideo}
                 controls
                 autoPlay
-                className="w-full h-auto bg-black rounded-2xl"
+                className="w-full h-auto bg-black"
               />
               <Button
                 onClick={() => setSelectedVideo(null)}
-                className="absolute top-3 right-3 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 transition"
+                className="absolute top-3 right-3 bg-white/95 hover:bg-white text-gray-800 rounded-full p-2 transition shadow"
               >
                 <X size={22} />
               </Button>

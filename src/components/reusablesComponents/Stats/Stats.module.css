@@ -1,3 +1,10 @@
+/* Stats.module.css */
+.root {
+  --theme: #27648a;
+  --bg1: #07101f;
+  --bg2: #0a1630;
+}
+
 .section {
   position: relative;
   overflow: hidden;
@@ -158,4 +165,10 @@
   right: -260px;
   bottom: -260px;
   opacity: 0.35;
+}
+
+@media (max-width: 769px) {
+  .section {
+    margin: 0px 20px;
+  }
 }

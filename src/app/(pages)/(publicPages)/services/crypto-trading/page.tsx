@@ -17,7 +17,7 @@ export const metadata:Metadata = {
 
 export default function CryptoTrading() {
   return (
-    <div className="bg-[#f1f6fb] text-gray-900">
+    <div className=" text-gray-900">
       {/* 🟣 HERO SECTION */}
       
       <ProductHero/>

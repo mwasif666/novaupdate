@@ -9,7 +9,7 @@ import HeroDefi from "@/components/main-ui-components/services/defi/Hero/Hero";
 
 export default function DeFiServicePage() {
   return (
-    <div className="bg-[#f1f6fb] text-gray-900 min-h-screen overflow-hidden">
+    <div className=" text-gray-900 min-h-screen overflow-hidden">
       {/* Hero Section */}
       <HeroDefi />
 

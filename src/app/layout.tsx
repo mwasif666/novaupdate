@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import {  Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import "animate.css"
 import {Toaster} from "react-hot-toast"
 import ClientLazyComponentsWrapper from "@/components/Wrapper/ClientsLazyComponentWrapper";
 
-
+// new theme
 const inter = Inter({
   weight: ["400", "500", "700"], // choose the weights you need
   subsets: ["latin"],
@@ -22,13 +22,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" >
-      <body
-        className={`${inter.variable} antialiased `}
-      >
-
+    <html lang="en">
+      <body className={`${inter.variable} antialiased `}>
         {children}
-       
+
         <Toaster/>
         <ClientLazyComponentsWrapper/>
       </body>

@@ -1,7 +1,7 @@
 // app/components/Header/Header.tsx  (or wherever you keep it)
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "gsap";
@@ -56,9 +56,6 @@ export default function Header() {
   const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const dropdownItemRefs = useRef<Record<string, HTMLElement[]>>({});
   const closingDropdownRef = useRef<string | null>(null);
-
-  const mobileSheetRef = useRef<HTMLDivElement | null>(null);
-  const mobileOverlayRef = useRef<HTMLDivElement | null>(null);
 
   const navItems: NavItem[] = useMemo(
     () => [
@@ -280,47 +277,6 @@ export default function Header() {
     }
   };
 
-  // ---- GSAP helpers (mobile sheet) ----
-  useEffect(() => {
-    const sheet = mobileSheetRef.current;
-    const overlay = mobileOverlayRef.current;
-    if (!sheet || !overlay) return;
-
-    const overlayEl = overlay;
-    const sheetEl = sheet;
-
-    gsap.killTweensOf([sheetEl, overlayEl]);
-
-    if (sidebarOpen) {
-      gsap.set(overlayEl, { display: "block" });
-      gsap.fromTo(
-        overlayEl,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.18, ease: "power2.out" },
-      );
-      gsap.fromTo(
-        sheetEl,
-        { yPercent: -110, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 0.35, ease: "power3.out" },
-      );
-    } else {
-      gsap.to(overlayEl, {
-        opacity: 0,
-        duration: 0.16,
-        ease: "power2.in",
-        onComplete: () => {
-          gsap.set(overlayEl, { display: "none" });
-        },
-      });
-      gsap.to(sheetEl, {
-        yPercent: -110,
-        opacity: 0,
-        duration: 0.3,
-        ease: "power3.in",
-      });
-    }
-  }, [sidebarOpen]);
-
   const closeMobile = () => {
     setMobileDropdown(null);
     setSidebarOpen(false);
@@ -521,7 +477,9 @@ export default function Header() {
         <Button
           size="icon"
           className={styles.mobileToggleBtn}
-          onClick={() => setSidebarOpen(true)}
+          type="button"
+          aria-expanded={sidebarOpen}
+          onClick={() => setSidebarOpen((prev) => !prev)}
           aria-label="Open menu"
         >
           <FaBars />
@@ -530,20 +488,20 @@ export default function Header() {
 
       {/* Mobile overlay */}
       <div
-        ref={mobileOverlayRef}
         className={styles.mobileOverlay}
         onClick={closeMobile}
-        style={{ display: "none" }}
+        data-open={sidebarOpen}
       />
 
       {/* Mobile sheet */}
       <div
-        ref={mobileSheetRef}
         className={styles.mobileSheet}
         aria-hidden={!sidebarOpen}
+        data-open={sidebarOpen}
       >
         <button
           className={styles.mobileClose}
+          type="button"
           onClick={closeMobile}
           aria-label="Close menu"
         >

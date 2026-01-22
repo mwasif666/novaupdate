@@ -154,7 +154,7 @@ export default function OurCompanyPage() {
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold bg-gradient-to-r from-[#1e597c] to-[#b366ff] bg-clip-text text-transparent mb-16"
+          className="text-4xl font-bold bg-clip-text text-transparent mb-16"
         >
           Leadership Team
         </motion.h2>
@@ -186,7 +186,7 @@ export default function OurCompanyPage() {
               className="bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden max-w-md mx-auto"
             >
               {/* Image Section (background wrapper) */}
-              <div className="relative w-full flex flex-col items-center py-10 bg-gradient-to-br from-[#f3f0ff] via-[#f9f6ff] to-[#ffdbff] group transition-all duration-500 hover:from-[#1e597c10] hover:via-[#b366ff15] hover:to-[#1e597c20]">
+              <div className="relative w-full flex flex-col items-center py-10  group transition-all duration-500">
                 {/* Circular Image (still centered) */}
                 <div className="relative w-56 h-56 sm:w-60 sm:h-60 rounded-full overflow-hidden border-4 border-[#1e597c20] shadow-md group-hover:border-[#1e597c50] transition-all duration-500">
                   <Image
